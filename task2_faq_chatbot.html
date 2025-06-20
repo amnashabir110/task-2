@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      padding: 40px;
+    }
+    .chatbox {
+      max-width: 600px;
+      background: white;
+      padding: 25px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    #chat {
+      height: 200px;
+      overflow-y: auto;
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    .user, .bot {
+      margin-bottom: 10px;
+    }
+    .user {
+      text-align: right;
+      color: blue;
+    }
+    .bot {
+      text-align: left;
+      color: green;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chatbox">
+  <h2>🤖 FAQ Chatbot</h2>
+  <div id="chat"></div>
+
+  <input type="text" id="userInput" placeholder="Ask a question..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  const faqs = [
+    { q: 'What is your return policy?', a: 'Our return policy lasts 30 days with receipt.' },
+    { q: 'How do I track my order?', a: 'Use the tracking link in your order confirmation email.' },
+    { q: 'Do you offer international shipping?', a: 'Yes, we ship internationally with additional fees.' },
+    { q: 'How can I contact support?', a: 'You can contact support via our Help Center or email.' }
+  ];
+
+  function sendMessage() {
+    const input = document.getElementById('userInput').value.trim();
+    if (!input) return;
+
+    addMessage('user', input);
+    document.getElementById('userInput').value = '';
+
+    const answer = findBestMatch(input.toLowerCase());
+    addMessage('bot', answer);
+  }
+
+  function findBestMatch(input) {
+    for (let i = 0; i < faqs.length; i++) {
+      if (input.includes(faqs[i].q.toLowerCase().split(' ')[0])) {
+        return faqs[i].a;
+      }
+    }
+    return "Sorry, I don't know the answer to that.";
+  }
+
+  function addMessage(type, text) {
+    const div = document.createElement('div');
+    div.className = type;
+    div.textContent = text;
+    document.getElementById('chat').appendChild(div);
+    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+  }
+</script>
+
+</body>
+</html>
